@@ -8,19 +8,27 @@ const Cart = (props) => {
   const cartCxt = useContext(CartContext);
   const totalAmount = `$${cartCxt.total.toFixed(2)}`;
   const isNotEmptyCart = cartCxt.items.length > 0;
-  const addCartItemHanlder = (item) => {}
-  const removeCartItemHandler = (id) => {}
+  const addCartItemHanlder = (item) => {
+    cartCxt.addItem({ ...item, amount: 1 });
+  };
+  const removeCartItemHandler = (id) => {
+
+    cartCxt.removeItem(id);
+  };
   const cartItems = (
     <ul className={classes["cart-items"]}>
       {cartCxt.items.map((item) => {
-        return <CartItem
-          key={item.id}
-          name={item.name}
-          price={item.price}
-          amount={item.amount}
-          onRemove={removeCartItemHandler.bind(null, item.id)}
-          onAdd={addCartItemHanlder.bind(null, item)}
-        />;
+
+        return (
+          <CartItem
+            key={item.id}
+            name={item.name}
+            price={item.price}
+            amount={item.amount}
+            onRemove={removeCartItemHandler.bind(null, item.id)}
+            onAdd={addCartItemHanlder.bind(null, item)}
+          />
+        );
       })}
     </ul>
   );
