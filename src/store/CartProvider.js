@@ -15,12 +15,11 @@ const cartReducer = (state, action) => {
       };
     case "REMOVE_ITEM":
       return {
-        ...state,
         items: state.items.filter((item) => item.id !== action.payload.id),
         total: state.total - action.payload.price * action.payload.amount,
       };
     default:
-      return state;
+      return defaultCartState;
   }
 };
 
@@ -40,8 +39,8 @@ const CartProvider = (props) => {
     });
   };
   const cartContext = {
-    items: [],
-    total: 0,
+    items: cartState.items,
+    total: cartState.total,
     addItem: addItemToCartHandler,
     removeItem: removeItemFromCartHandler,
   };
