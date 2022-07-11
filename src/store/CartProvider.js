@@ -17,7 +17,6 @@ const cartReducer = (state, action) => {
 
       const existingItem = state.items[existingItemIndex];
 
-
       let updateItems;
 
       if (existingItem) {
@@ -30,7 +29,6 @@ const cartReducer = (state, action) => {
         updateItems[existingItemIndex] = updatedItem;
       } else {
         updateItems = state.items.concat(action.payload);
-
       }
       return {
         items: updateItems,
@@ -39,12 +37,9 @@ const cartReducer = (state, action) => {
     }
 
     case "REMOVE_ITEM": {
-
       const existingItemIndex = state.items.findIndex(
         (item) => item.id === action.id
       );
-
-
 
       const existingItem = state.items[existingItemIndex];
 
@@ -68,6 +63,10 @@ const cartReducer = (state, action) => {
       };
     }
 
+    case "CLEAR_CART": {
+      return defaultCartState;
+    }
+
     default:
       return defaultCartState;
   }
@@ -88,11 +87,16 @@ const CartProvider = (props) => {
       id: id,
     });
   };
+
+  const clearCartHandler = () => {
+    cartDispatch({ type: "CLEAR_CART" });
+  };
   const cartContext = {
     items: cartState.items,
     total: cartState.total,
     addItem: addItemToCartHandler,
     removeItem: removeItemFromCartHandler,
+    clearCart: clearCartHandler,
   };
   return (
     <CartContext.Provider value={cartContext}>
